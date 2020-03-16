@@ -12,11 +12,12 @@ cpits <- ts(cpits, start=c(1947), end=c(2017), frequency=12)
 cpits
 
 # Examining the plot
-
+tiff("tsgraph.jpg", units="px", width=600, height=600, res=150)
 autoplot(cpits) +
   ggtitle("CPI index from 1947 to 2016") +
   xlab("Year") +
   ylab("Index value")
+dev.off()
 
 # Seasonal plot, linear and polar
 
@@ -35,7 +36,9 @@ ggsubseriesplot(cpits) +
   ggtitle("Seasonal subseries plot: CPI index")
 
 # Lag plot
+tiff("lagplot.jpg", units="px", width=800, height=800, res=150)
 gglagplot(cpits)
+dev.off()
 
 # Autocorrelation function
 # shows the time series is trended
@@ -57,20 +60,19 @@ rwf(cpits, h = 37, drift = TRUE)
 
 
 # PLOT TESTING
+tiff("tstest.png", units="px", width=1200, height=800, res=150)
 autoplot(cpits) +
   autolayer(meanf(cpits, h = 37),
             series = "Mean", PI=FALSE) +
-  autolayer(naive(cpits, h = 37),
-            series = "Naive", PI=FALSE) +
   autolayer(snaive(cpits, h = 37),
             series = "snaive", PI=FALSE) +
   autolayer(rwf(cpits, h = 37, drift = TRUE),
             series = "Drift", PI=FALSE) +
-  ggtitle("Forecasts for CPI Index of all urban consumer") +
+  ggtitle("Trend forecasts for CPI Index of All Urban Consumers") +
   xlab("Year") +
   ylab("Index") +
   guides(colour = guide_legend(title = "Forecast"))
-  
+dev.off()
 # Residual analysis of drift method
 res <- residuals(rwf(cpits, h = 37, drift = TRUE))
 autoplot(res) + xlab("Year") + ylab("") +
