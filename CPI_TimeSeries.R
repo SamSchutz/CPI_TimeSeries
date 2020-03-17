@@ -89,10 +89,12 @@ Box.test(res, lag=10, fitdf = 0)
 # training
 train <- window(cpits, start = 1947, end = 2010)
 
-fit1 <- meanf(train, h = 72)
-fit2 <- snaive(train, h = 72)
-fit3 <- rwf(train, h = 72, drift = TRUE)
+fit1 <- meanf(train, h = 84)
+fit2 <- snaive(train, h = 84)
+fit3 <- rwf(train, h = 84, drift = TRUE)
 
+
+tiff("tstrain.png", units="px", width=1200, height=800, res=150)
 autoplot(cpits) +
   autolayer(fit1, series = "Mean", PI=FALSE) +
   autolayer(fit2, series = "Seasonal Naive", PI=FALSE) +
@@ -101,6 +103,7 @@ autoplot(cpits) +
   xlab("Year") +
   ylab("Index") +
   guides(colour = guide_legend(title = "Forecast"))
+dev.off()
 
 win3 <- window(cpits, start=2010)
 accuracy(fit1, win3)
